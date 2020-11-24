@@ -2,3 +2,6 @@ Running: xsim.dir/tb_Accelerator_behav/xsimk.exe -simmode gui -wdb tb_Accelerato
 Design successfully loaded
 Design Loading Memory Usage: 5972 KB (Peak: 5972 KB)
 Design Loading CPU Usage: 15 ms
+Simulation completed
+Simulation Memory Usage: 14924 KB (Peak: 14924 KB)
+Simulation CPU Usage: 921 ms
