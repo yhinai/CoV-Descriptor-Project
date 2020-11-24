@@ -1,6 +1,7 @@
 
 
-module SobelAccelerator(
+module SobelAccelerator #(parameter row = 25, parameter col = 25)
+    (
     input ap_clk, 
     input ap_rst, 
     input [47:0] d_q0, 
@@ -14,15 +15,12 @@ module SobelAccelerator(
     output reg ap_done
     );
 
-    
-    parameter row = 10;
-    parameter col = 10;
-    
-    parameter [2:0] IDLE = 0;
-    parameter [2:0] START = 1;
-    parameter [2:0] PROCESS = 2;    
-    parameter [2:0] LAST = 3;
-    parameter [2:0] DONE = 4;
+
+    localparam  [2:0] IDLE = 0;
+    localparam  [2:0] START = 1;
+    localparam  [2:0] PROCESS = 2;    
+    localparam  [2:0] LAST = 3;
+    localparam [2:0] DONE = 4;
     
     reg [2:0] STATE = IDLE;
     

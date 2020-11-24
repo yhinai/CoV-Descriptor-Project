@@ -6,17 +6,17 @@ Starting static elaboration
 Pass Through NonSizing Optimizer
 Completed static elaboration
 Starting simulation data flow analysis
-WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/Top.v" Line 3. Module Top doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/SobelAccelerator.v" Line 3. Module SobelAccelerator doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv" Line 2. Module RAM doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/Top.v" Line 3. Module Top doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/SobelAccelerator.v" Line 3. Module SobelAccelerator doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv" Line 2. Module RAM doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/Top.v" Line 3. Module Top(row=25,col=25) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/SobelAccelerator.sv" Line 3. Module SobelAccelerator(row=25,col=25) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv" Line 2. Module RAM(row=25,col=25) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/Top.v" Line 3. Module Top(row=25,col=25) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/SobelAccelerator.sv" Line 3. Module SobelAccelerator(row=25,col=25) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv" Line 2. Module RAM(row=25,col=25) doesn't have a timescale but at least one module in design has a timescale.
 Completed simulation data flow analysis
 Time Resolution for simulation is 1ps
-Compiling module xil_defaultlib.SobelAccelerator
-Compiling module xil_defaultlib.RAM
-Compiling module xil_defaultlib.Top
+Compiling module xil_defaultlib.SobelAccelerator(row=25,col=25)
+Compiling module xil_defaultlib.RAM(row=25,col=25)
+Compiling module xil_defaultlib.Top(row=25,col=25)
 Compiling module xil_defaultlib.tb_Accelerator
 Compiling module xil_defaultlib.glbl
 Built simulation snapshot tb_Accelerator_behav

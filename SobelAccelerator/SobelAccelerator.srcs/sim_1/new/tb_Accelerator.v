@@ -30,7 +30,11 @@ module tb_Accelerator();
     wire ap_idle;
     wire ap_done;
     
-    Top U1(
+    parameter row = 25;
+    parameter col = 25;
+    
+    Top #(row, col) U1
+    (
     .ap_clk (ap_clk),
     .ap_rst (ap_rst),
     .d_d0   (d_d0),
@@ -39,48 +43,37 @@ module tb_Accelerator();
     .ap_done (ap_done)
     );
     
-    integer Res;
+    
     always #5 ap_clk = ~ap_clk;
     
+    integer LogRes;
     initial begin
-        Res = $fopen("log_results.txt");
+        LogRes = $fopen("LogRes");
         ap_clk = 0;
         ap_rst = 1;
         #10 ap_rst = 0;
         #20
-        operation();
-        operation();
-        operation();
-        operation();
-        operation();
-        operation();
-        operation();
-        operation();
-        operation();
-        operation();
+        repeat (row) begin 
+            operation();
+        end 
         
-        $fclose(Res);
+        //$fclose(LogRes);
     end
     
     
+    integer i;
 
     task operation;      
-        reg signed [7:0] RES [0:9];
+        reg signed [7:0] RES;
         begin 
+            for (i = 0; i < col; i = i + 1) begin
+                #10 RES = d_d0;
+                $write ("%d ", RES);
+//                $write (LogRes, "%d ", RES);
+            end
             
-            #10 RES[0] = d_d0;
-            #10 RES[1] = d_d0;
-            #10 RES[2] = d_d0;
-            #10 RES[3] = d_d0;
-            #10 RES[4] = d_d0;
-            #10 RES[5] = d_d0;
-            #10 RES[6] = d_d0;
-            #10 RES[7] = d_d0;
-            #10 RES[8] = d_d0;
-            #10 RES[9] = d_d0;
-            
-            $display ("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d", RES[0], RES[1], RES[2], RES[3], RES[4], RES[5], RES[6], RES[7], RES[8], RES[9]);
-            $fdisplay(Res, "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d", RES[0], RES[1], RES[2], RES[3], RES[4], RES[5], RES[6], RES[7], RES[8], RES[9]);
+            $write("\n");
+//            $write (LogRes, "\n", RES);
 
         end
     endtask

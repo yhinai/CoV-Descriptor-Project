@@ -1,10 +1,10 @@
 # compile verilog/system verilog design source files
 verilog xil_defaultlib  \
-"../../../../SobelAccelerator.srcs/sources_1/new/SobelAccelerator.v" \
 "../../../../SobelAccelerator.srcs/sources_1/new/Top.v" \
 
 sv xil_defaultlib  \
 "../../../../SobelAccelerator.srcs/sources_1/new/RAM.sv" \
+"../../../../SobelAccelerator.srcs/sources_1/new/SobelAccelerator.sv" \
 
 verilog xil_defaultlib  \
 "../../../../SobelAccelerator.srcs/sim_1/new/tb_Accelerator.v" \
