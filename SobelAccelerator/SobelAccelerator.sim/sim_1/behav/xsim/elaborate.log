@@ -6,10 +6,10 @@ Starting static elaboration
 Pass Through NonSizing Optimizer
 Completed static elaboration
 Starting simulation data flow analysis
-WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/Top.v" Line 3. Module Top(row=25,col=25) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/Top.sv" Line 3. Module Top(row=25,col=25) doesn't have a timescale but at least one module in design has a timescale.
 WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/SobelAccelerator.sv" Line 3. Module SobelAccelerator(row=25,col=25) doesn't have a timescale but at least one module in design has a timescale.
 WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv" Line 2. Module RAM(row=25,col=25) doesn't have a timescale but at least one module in design has a timescale.
-WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/Top.v" Line 3. Module Top(row=25,col=25) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/Top.sv" Line 3. Module Top(row=25,col=25) doesn't have a timescale but at least one module in design has a timescale.
 WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/SobelAccelerator.sv" Line 3. Module SobelAccelerator(row=25,col=25) doesn't have a timescale but at least one module in design has a timescale.
 WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv" Line 2. Module RAM(row=25,col=25) doesn't have a timescale but at least one module in design has a timescale.
 Completed simulation data flow analysis
