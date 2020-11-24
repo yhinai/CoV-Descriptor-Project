@@ -79,8 +79,8 @@ module tb_Accelerator();
             #10 RES[8] = d_d0;
             #10 RES[9] = d_d0;
             
-            $display ("%d  %d  %d  %d  %d  %d  %d  %d  %d  %d", RES[0], RES[1], RES[2], RES[3], RES[4], RES[5], RES[6], RES[7], RES[8], RES[9]);
-            $fdisplay(Res, "%d  %d  %d  %d  %d  %d  %d  %d  %d  %d", RES[0], RES[1], RES[2], RES[3], RES[4], RES[5], RES[6], RES[7], RES[8], RES[9]);
+            $display ("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d", RES[0], RES[1], RES[2], RES[3], RES[4], RES[5], RES[6], RES[7], RES[8], RES[9]);
+            $fdisplay(Res, "%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d", RES[0], RES[1], RES[2], RES[3], RES[4], RES[5], RES[6], RES[7], RES[8], RES[9]);
 
         end
     endtask
