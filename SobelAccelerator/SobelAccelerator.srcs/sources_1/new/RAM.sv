@@ -3,18 +3,21 @@ module RAM #(parameter row = 10, parameter col = 10)
     (
     input ap_clk,
     input ap_rst,
-    input signed [7:0] d_d0,
+    input signed [7:0] d_d0_H,
+    input signed [7:0] d_d0_V,
     input [31:0] d_address_read,
     input [31:0] d_address_write,
     input d_we0,
     input d_ce0,
 
-    output reg [47:0] d_q0
+    output reg [71:0] d_q0
     );
     
-    reg signed [7:0] mem [0:row-1][0:col-1][0:1];
+    reg signed [16:0] mem [0:row-1][0:col-1][0:1];
     
-    reg signed [7:0] test [0:row-1][0:col-1] =
+    parameter r = 25;
+    parameter c = 25;
+    reg signed [7:0] test [0:r-1][0:c-1] =
     {{ 8'd132, 8'd110, 8'd103, 8'd39, 8'd226, 8'd231, 8'd94, 8'd112, 8'd173, 8'd96, 8'd229, 8'd246, 8'd211, 8'd33, 8'd230, 8'd182, 8'd199, 8'd37, 8'd51, 8'd198, 8'd117, 8'd94, 8'd1, 8'd81, 8'd49},
     { 8'd135, 8'd92, 8'd248, 8'd132, 8'd192, 8'd54, 8'd104, 8'd5, 8'd157, 8'd204, 8'd203, 8'd225, 8'd232, 8'd225, 8'd42, 8'd182, 8'd229, 8'd226, 8'd192, 8'd40, 8'd57, 8'd233, 8'd246, 8'd210, 8'd15},
     { 8'd149, 8'd8, 8'd75, 8'd20, 8'd165, 8'd140, 8'd148, 8'd6, 8'd113, 8'd197, 8'd55, 8'd126, 8'd185, 8'd159, 8'd148, 8'd229, 8'd123, 8'd98, 8'd19, 8'd31, 8'd42, 8'd175, 8'd247, 8'd147, 8'd155},
@@ -52,18 +55,28 @@ module RAM #(parameter row = 10, parameter col = 10)
     end
     
     
-    wire [7:0] c1,c2,c3,c7,c8,c9;
+    wire [7:0] c1,c2,c3,c4,c5,c6,c7,c8,c9;
+    
     assign c1 = (d_address_read/col == 0       || d_address_read%col == 0      )? 0 : mem[(d_address_read/col)-1][(d_address_read%col)-1][0];
     assign c2 = (d_address_read/col == 0                                       )? 0 : mem[(d_address_read/col)-1][(d_address_read%col)]  [0];
     assign c3 = (d_address_read/col == 0       || d_address_read%col == (col-1))? 0 : mem[(d_address_read/col)-1][(d_address_read%col)+1][0];
     
+    assign c4 = (d_address_read%col == 0                                       )? 0 : mem[(d_address_read/col)][(d_address_read%col)-1][0];
+    assign c5 =                                                                       mem[(d_address_read/col)][(d_address_read%col)]  [0];
+    assign c6 = (d_address_read%col == (col-1)                                 )? 0 : mem[(d_address_read/col)][(d_address_read%col)+1][0];
+
     assign c7 = (d_address_read/col == (row-1) || d_address_read%col == 0      )? 0 : mem[(d_address_read/col)+1][(d_address_read%col)-1][0];
     assign c8 = (d_address_read/col == (row-1)                                 )? 0 : mem[(d_address_read/col)+1][(d_address_read%col)]  [0];
     assign c9 = (d_address_read/col == (row-1) || d_address_read%col == (col-1))? 0 : mem[(d_address_read/col)+1][(d_address_read%col)+1][0];
 
+    wire signed [15:0] Gx2 = d_d0_H*d_d0_H;
+    wire signed [15:0] Gy2 = d_d0_V*d_d0_V;
+    wire [16:0] R = Gx2+Gy2;
+    
+    
     always @ (posedge ap_clk) begin
         if (d_ce0) begin
-            d_q0 <= {c1,c2,c3,c7,c8,c9};
+            d_q0 <= {c1,c2,c3,c4,c5,c6,c7,c8,c9};
         end
         
     end
@@ -71,7 +84,7 @@ module RAM #(parameter row = 10, parameter col = 10)
 
     always @ (posedge ap_clk) begin
         if (d_we0) begin
-            mem[d_address_write/col][d_address_write%col][1] <= d_d0;
+            mem[d_address_write/col][d_address_write%col][1] <= (Gx2+Gy2);
         end
     end
     

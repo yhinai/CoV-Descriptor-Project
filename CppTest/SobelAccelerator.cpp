@@ -43,8 +43,12 @@ int main(){
         for (int j = 0; j < COL; j++)
         {
             if ((i==0) || (j==0) ||(i==ROW-1) || (j==COL-1)) cout << "0\t";
-            else cout <<  ((- (arr[i-1][j-1] + 2*arr[i-1][j] + arr[i-1][j+1])
-                          +  arr[i+1][j-1] + 2*arr[i+1][j] + arr[i+1][j+1])>>3)  << "\t";
+            else{ 
+                int Gx = ((- (arr[i-1][j-1] + 2*arr[i-1][j] + arr[i-1][j+1]) + arr[i+1][j-1] + 2*arr[i+1][j] + arr[i+1][j+1])>>3);
+                int Gy = ((- (arr[i-1][j-1] + 2*arr[i][j-1] + arr[i+1][j-1]) + arr[i-1][j+1] + 2*arr[i][j+1] + arr[i+1][j+1])>>3);
+
+                cout <<  (Gx*Gx+Gy*Gy)  << "\t";
+            }
         }
         cout << endl;
     }
