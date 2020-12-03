@@ -2,8 +2,8 @@
 # Vivado v2020.1.1 (64-bit)
 # SW Build 2960000 on Wed Aug  5 22:57:20 MDT 2020
 # IP Build 2956692 on Thu Aug  6 01:41:30 MDT 2020
-# Start of session at: Wed Dec  2 08:02:19 2020
-# Process ID: 3112
+# Start of session at: Wed Dec  2 23:18:19 2020
+# Process ID: 18156
 # Current directory: C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.runs/synth_1
 # Command line: vivado.exe -log Top.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source Top.tcl
 # Log file: C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.runs/synth_1/Top.vds
@@ -16,13 +16,40 @@ Attempting to get a license for feature 'Synthesis' and/or device 'xa7a35t'
 INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xa7a35t'
 INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
 INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
-INFO: [Synth 8-7075] Helper process launched with PID 17644
-ERROR: [Synth 8-1002] r is not a constant [C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv:19]
-ERROR: [Synth 8-1002] c is not a constant [C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv:19]
-INFO: [Synth 8-2350] module RAM ignored due to previous errors [C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv:2]
-Failed to read verilog 'C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv'
+INFO: [Synth 8-7075] Helper process launched with PID 21880
+WARNING: [Synth 8-2507] parameter declaration becomes local in RAM with formal parameter declaration list [C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv:18]
+WARNING: [Synth 8-2507] parameter declaration becomes local in RAM with formal parameter declaration list [C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv:19]
+---------------------------------------------------------------------------------
+Starting Synthesize : Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 1037.199 ; gain = 0.000
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'Top' [C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/Top.sv:3]
+	Parameter row bound to: 5 - type: integer 
+	Parameter col bound to: 5 - type: integer 
+INFO: [Synth 8-6157] synthesizing module 'SobelAccelerator' [C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/SobelAccelerator.sv:3]
+	Parameter row bound to: 5 - type: integer 
+	Parameter col bound to: 5 - type: integer 
+	Parameter IDLE bound to: 3'b000 
+	Parameter START bound to: 3'b001 
+	Parameter PROCESS bound to: 3'b010 
+	Parameter LAST bound to: 3'b011 
+	Parameter DONE bound to: 3'b100 
+INFO: [Synth 8-155] case statement is not full and has no default [C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/SobelAccelerator.sv:62]
+INFO: [Synth 8-6155] done synthesizing module 'SobelAccelerator' (1#1) [C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/SobelAccelerator.sv:3]
+INFO: [Synth 8-6157] synthesizing module 'RAM' [C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv:2]
+	Parameter row bound to: 5 - type: integer 
+	Parameter col bound to: 5 - type: integer 
+	Parameter ro bound to: 25 - type: integer 
+	Parameter co bound to: 25 - type: integer 
+ERROR: [Synth 8-659] type mismatch in unpacked array concatenation: bit [199:0]A vs. bit [7:0]B[0:24] [C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv:21]
+ERROR: [Synth 8-359] invalid assignment pattern [C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv:21]
+ERROR: [Synth 8-6156] failed synthesizing module 'RAM' [C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv:2]
+ERROR: [Synth 8-6156] failed synthesizing module 'Top' [C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/Top.sv:3]
+---------------------------------------------------------------------------------
+Finished Synthesize : Time (s): cpu = 00:00:05 ; elapsed = 00:00:05 . Memory (MB): peak = 1037.199 ; gain = 0.000
+---------------------------------------------------------------------------------
+synthesize failed
 INFO: [Common 17-83] Releasing license: Synthesis
-6 Infos, 0 Warnings, 0 Critical Warnings and 3 Errors encountered.
+10 Infos, 2 Warnings, 0 Critical Warnings and 5 Errors encountered.
 synth_design failed
 ERROR: [Common 17-69] Command failed: Vivado Synthesis failed
-INFO: [Common 17-206] Exiting Vivado at Wed Dec  2 08:02:32 2020...
+INFO: [Common 17-206] Exiting Vivado at Wed Dec  2 23:18:29 2020...

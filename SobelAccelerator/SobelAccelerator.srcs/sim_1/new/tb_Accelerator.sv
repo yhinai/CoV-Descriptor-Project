@@ -45,9 +45,8 @@ module tb_Accelerator();
     .ap_done (ap_done)
     );
     
-//    wire signed [15:0] Gx2 = d_d0_H*d_d0_H;
-//    wire signed [15:0] Gy2 = d_d0_V*d_d0_V;
-//    wire [16:0] R = Gx2+Gy2;
+    wire signed [15:0] Gx2 = d_d0_H*d_d0_H;
+    wire signed [15:0] Gy2 = d_d0_V*d_d0_V;
     
     always #5 ap_clk = ~ap_clk;
     
@@ -72,7 +71,7 @@ module tb_Accelerator();
         reg signed [16:0] RES;
         begin 
             for (i = 0; i < col; i = i + 1) begin
-                #10 RES = d_d0_H;
+                #10 RES = (Gx2+Gy2);
                 $write ("%d ", RES);
 //                $write (LogRes, "%d ", RES);
             end
