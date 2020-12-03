@@ -13,11 +13,11 @@ module RAM #(parameter row = 10, parameter col = 10)
     output reg [71:0] d_q0
     );
     
-    reg signed [16:0] mem [0:row-1][0:col-1][0:1];
+    reg signed [16:0] mem [0:row-1][0:col-1][0:2];
     
-    parameter ro = 25;
-    parameter co = 25;
-    reg [7:0] test [0:ro-1][0:co-1] =
+    parameter r = 25;
+    parameter c = 25;
+    reg [7:0] test [0:r-1][0:c-1] =
     {{8'd132, 8'd110, 8'd103, 8'd39, 8'd226, 8'd231, 8'd94, 8'd112, 8'd173, 8'd96, 8'd229, 8'd246, 8'd211, 8'd33, 8'd230, 8'd182, 8'd199, 8'd37, 8'd51, 8'd198, 8'd117, 8'd94, 8'd1, 8'd81, 8'd49},
     { 8'd135, 8'd92, 8'd248, 8'd132, 8'd192, 8'd54, 8'd104, 8'd5, 8'd157, 8'd204, 8'd203, 8'd225, 8'd232, 8'd225, 8'd42, 8'd182, 8'd229, 8'd226, 8'd192, 8'd40, 8'd57, 8'd233, 8'd246, 8'd210, 8'd15},
     { 8'd149, 8'd8, 8'd75, 8'd20, 8'd165, 8'd140, 8'd148, 8'd6, 8'd113, 8'd197, 8'd55, 8'd126, 8'd185, 8'd159, 8'd148, 8'd229, 8'd123, 8'd98, 8'd19, 8'd31, 8'd42, 8'd175, 8'd247, 8'd147, 8'd155},
@@ -48,8 +48,9 @@ module RAM #(parameter row = 10, parameter col = 10)
     initial begin
         for (i = 0; i < row; i = i+1) begin
             for (j = 0; j < col; j = j+1) begin
-                mem[i][j][0] <= test[i][j];
+                mem[i][j][0] <= test[i%r][j%c];
                 mem[i][j][1] <= 0;
+                mem[i][j][2] <= 0;
             end
         end
     end
@@ -69,8 +70,10 @@ module RAM #(parameter row = 10, parameter col = 10)
     assign c8 = (d_address_read/col == (row-1)                                 )? 0 : mem[(d_address_read/col)+1][(d_address_read%col)]  [0];
     assign c9 = (d_address_read/col == (row-1) || d_address_read%col == (col-1))? 0 : mem[(d_address_read/col)+1][(d_address_read%col)+1][0];
 
-    wire signed [15:0] Gx2 = d_d0_H*d_d0_H;
-    wire signed [15:0] Gy2 = d_d0_V*d_d0_V;
+    wire signed [15:0] Gy = d_d0_H;
+    wire signed [15:0] Gx = d_d0_V;
+    wire signed [15:0] Gy2 = d_d0_H*d_d0_H;
+    wire signed [15:0] Gx2 = d_d0_V*d_d0_V;
     
     
     always @ (posedge ap_clk) begin
@@ -84,6 +87,7 @@ module RAM #(parameter row = 10, parameter col = 10)
     always @ (posedge ap_clk) begin
         if (d_we0) begin
             mem[d_address_write/col][d_address_write%col][1] <= (Gx2+Gy2);
+            mem[d_address_write/col][d_address_write%col][2] <= (Gy/Gx);
         end
     end
     
