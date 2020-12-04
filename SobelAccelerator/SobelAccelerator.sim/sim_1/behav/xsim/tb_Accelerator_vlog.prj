@@ -3,6 +3,7 @@ sv xil_defaultlib  \
 "../../../../SobelAccelerator.srcs/sources_1/new/RAM.sv" \
 "../../../../SobelAccelerator.srcs/sources_1/new/SobelAccelerator.sv" \
 "../../../../SobelAccelerator.srcs/sources_1/new/Top.sv" \
+"../../../../SobelAccelerator.srcs/sim_1/new/sqrt.sv" \
 "../../../../SobelAccelerator.srcs/sim_1/new/tb_Accelerator.sv" \
 
 # compile glbl module

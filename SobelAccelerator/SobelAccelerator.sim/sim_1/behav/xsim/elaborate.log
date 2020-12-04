@@ -15,6 +15,7 @@ WARNING: [XSIM 43-4099] "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Projec
 Completed simulation data flow analysis
 Time Resolution for simulation is 1ps
 Compiling module xil_defaultlib.SobelAccelerator(row=256,col=256...
+Compiling module xil_defaultlib.sqrt_default
 Compiling module xil_defaultlib.RAM(row=256,col=256)
 Compiling module xil_defaultlib.Top(row=256,col=256)
 Compiling module xil_defaultlib.tb_Accelerator

@@ -111,5 +111,4 @@ module SobelAccelerator #(parameter row = 5, parameter col = 5)
         endcase        
     end
     
-    
 endmodule
