@@ -2,14 +2,13 @@
 # Webtalk v2020.1.1 (64-bit)
 # SW Build 2960000 on Wed Aug  5 22:57:20 MDT 2020
 # IP Build 2956692 on Thu Aug  6 01:41:30 MDT 2020
-# Start of session at: Thu Dec  3 13:06:53 2020
-# Process ID: 21712
+# Start of session at: Fri Dec  4 18:09:27 2020
+# Process ID: 22008
 # Current directory: C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.sim/sim_1/behav/xsim
 # Command line: wbtcv.exe -mode batch -source C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.sim/sim_1/behav/xsim/xsim.dir/tb_Accelerator_behav/webtalk/xsim_webtalk.tcl -notrace
 # Log file: C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.sim/sim_1/behav/xsim/webtalk.log
 # Journal file: C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.sim/sim_1/behav/xsim\webtalk.jou
 #-----------------------------------------------------------
 source C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.sim/sim_1/behav/xsim/xsim.dir/tb_Accelerator_behav/webtalk/xsim_webtalk.tcl -notrace
-INFO: [Common 17-186] 'C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.sim/sim_1/behav/xsim/xsim.dir/tb_Accelerator_behav/webtalk/usage_statistics_ext_xsim.xml' has been successfully sent to Xilinx on Thu Dec  3 13:07:00 2020. For additional details about this file, please refer to the WebTalk help file at C:/Xilinx/Vivado/2020.1/doc/webtalk_introduction.html.
-webtalk_transmit: Time (s): cpu = 00:00:00 ; elapsed = 00:00:06 . Memory (MB): peak = 113.828 ; gain = 17.684
-INFO: [Common 17-206] Exiting Webtalk at Thu Dec  3 13:07:00 2020...
+INFO: [Common 17-186] 'C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.sim/sim_1/behav/xsim/xsim.dir/tb_Accelerator_behav/webtalk/usage_statistics_ext_xsim.xml' has been successfully sent to Xilinx on Fri Dec  4 18:09:31 2020. For additional details about this file, please refer to the WebTalk help file at C:/Xilinx/Vivado/2020.1/doc/webtalk_introduction.html.
+INFO: [Common 17-206] Exiting Webtalk at Fri Dec  4 18:09:31 2020...

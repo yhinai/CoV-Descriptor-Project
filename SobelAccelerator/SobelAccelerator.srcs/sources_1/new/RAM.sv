@@ -80,16 +80,17 @@ module RAM #(parameter row = 10, parameter col = 10)
         
     end
 
-    wire signed [7:0] Gy = (d_d0_H == 0)? 1 : d_d0_H;
-    wire signed [7:0] Gx = (d_d0_V == 0)? 1 : d_d0_V;    
     
     wire signed [7:0] sqrt_Gx2_Gy2;
     sqrt r1(d_d0_H, d_d0_V, sqrt_Gx2_Gy2);
 
+    wire signed [7:0] atan_Gx_Gy;
+    atan a1(d_d0_H, d_d0_V, atan_Gx_Gy);
+        
     always @ (posedge ap_clk) begin
         if (d_we0) begin
             mem[d_address_write/col][d_address_write%col][1] <= sqrt_Gx2_Gy2;
-            mem[d_address_write/col][d_address_write%col][2] <= (Gy/Gx);
+            mem[d_address_write/col][d_address_write%col][2]<= atan_Gx_Gy;
         end
     end
     

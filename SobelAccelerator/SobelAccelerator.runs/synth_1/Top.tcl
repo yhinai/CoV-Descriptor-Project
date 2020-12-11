@@ -87,8 +87,10 @@ OPTRACE "Adding files" START { }
 read_verilog -library xil_defaultlib -sv {
   C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/RAM.sv
   C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/SobelAccelerator.sv
+  C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/sqrt.sv
   C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/Top.sv
 }
+read_verilog -library xil_defaultlib C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sources_1/new/atan.v
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the
