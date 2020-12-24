@@ -5,6 +5,9 @@ module RAM #(parameter row = 10, parameter col = 10)
     input ap_rst,
     input signed [7:0] d_d0_H,
     input signed [7:0] d_d0_V,
+    input        [7:0] sqrt_Gx_Gy,
+    input signed [7:0] atan_Gx_Gy,
+    
     input [31:0] d_address_read,
     input [31:0] d_address_write,
     input d_we0,
@@ -13,7 +16,7 @@ module RAM #(parameter row = 10, parameter col = 10)
     output reg [71:0] d_q0
     );
     
-    reg signed [16:0] mem [0:row-1][0:col-1][0:2];
+    reg signed [7:0] mem [0:row-1][0:col-1][0:4];
     
 //    parameter r = 25;
 //    parameter c = 25;
@@ -48,9 +51,11 @@ module RAM #(parameter row = 10, parameter col = 10)
     initial begin
         for (i = 0; i < row; i = i+1) begin
             for (j = 0; j < col; j = j+1) begin
-                mem[i][j][0] <= (i*7 + j*21)%256;
+                mem[i][j][0] <= (i*77 + j*221+73)%256;
                 mem[i][j][1] <= 0;
                 mem[i][j][2] <= 0;
+                mem[i][j][3] <= 0;
+                mem[i][j][4] <= 0;
             end
         end
     end
@@ -80,17 +85,13 @@ module RAM #(parameter row = 10, parameter col = 10)
         
     end
 
-    
-    wire signed [7:0] sqrt_Gx2_Gy2;
-    sqrt r1(d_d0_H, d_d0_V, sqrt_Gx2_Gy2);
 
-    wire signed [7:0] atan_Gx_Gy;
-    atan a1(d_d0_H, d_d0_V, atan_Gx_Gy);
-        
     always @ (posedge ap_clk) begin
         if (d_we0) begin
-            mem[d_address_write/col][d_address_write%col][1] <= sqrt_Gx2_Gy2;
-            mem[d_address_write/col][d_address_write%col][2]<= atan_Gx_Gy;
+            mem[d_address_write/col][d_address_write%col][1] <= d_d0_H;
+            mem[d_address_write/col][d_address_write%col][2]<= d_d0_V;
+            mem[d_address_write/col][d_address_write%col][3] <= sqrt_Gx_Gy;
+            mem[d_address_write/col][d_address_write%col][4]<= atan_Gx_Gy;
         end
     end
     

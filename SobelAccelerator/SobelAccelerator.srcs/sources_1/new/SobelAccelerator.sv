@@ -1,16 +1,17 @@
 
 
-module SobelAccelerator #(parameter row = 5, parameter col = 5)
+module SobelAccelerator #(parameter row = 10, parameter col = 10)
     (
     input ap_clk, 
     input ap_rst, 
     input [71:0] d_q0, 
     output reg signed [7:0] d_d0_H,
     output reg signed [7:0] d_d0_V,
+    output reg        [7:0] sqrt_Gx_Gy,
+    output reg signed [7:0] atan_Gx_Gy,
     output reg [31:0] d_address_read,
     output reg [31:0] d_address_write,
     output reg d_we0, d_ce0,
-    
     output reg ap_start,
     output reg ap_idle,
     output reg ap_done
@@ -30,6 +31,8 @@ module SobelAccelerator #(parameter row = 5, parameter col = 5)
     
     wire signed [7:0] H_sobel;
     wire signed [7:0] V_sobel;
+    wire        [7:0] sqrt_GxGy;
+    wire signed [7:0] atan_GxGy;
 
     wire [7:0] c1,c2,c3,c4,c5,c6,c7,c8,c9;
     
@@ -47,6 +50,12 @@ module SobelAccelerator #(parameter row = 5, parameter col = 5)
     
     assign H_sobel = (d_address_write/col != 0 && d_address_write%col != 0 && d_address_write/col != (row-1) && d_address_write%col != (col-1))? (-c1-2*c2-c3+c7+2*c8+c9)>>3 : 0;
     assign V_sobel = (d_address_write/col != 0 && d_address_write%col != 0 && d_address_write/col != (row-1) && d_address_write%col != (col-1))? (-c1-2*c4-c7+c3+2*c6+c9)>>3 : 0;    
+
+    sqrt s0(H_sobel, V_sobel, sqrt_GxGy);
+    
+    
+    atan a0(H_sobel, V_sobel, atan_GxGy);
+
     
     always @ (posedge ap_clk) begin
         if (ap_rst)begin 
@@ -88,8 +97,12 @@ module SobelAccelerator #(parameter row = 5, parameter col = 5)
                 d_address_read <= (i*row)+j;
                 addrWrite <= (i*row)+j;
                 d_address_write <= addrWrite;
+                
                 d_d0_H <= H_sobel;
                 d_d0_V <= V_sobel;
+                sqrt_Gx_Gy <= sqrt_GxGy;
+                atan_Gx_Gy <= atan_GxGy;
+                
                 d_ce0 <= 1;
                 d_we0 <= 1;
                 
@@ -101,6 +114,8 @@ module SobelAccelerator #(parameter row = 5, parameter col = 5)
             LAST: begin
                 d_d0_H <= H_sobel;
                 d_d0_V <= V_sobel;
+                sqrt_Gx_Gy <= sqrt_GxGy;
+                atan_Gx_Gy <= atan_GxGy;
 
                 d_ce0 <= 0;
                 d_we0 <= 1;

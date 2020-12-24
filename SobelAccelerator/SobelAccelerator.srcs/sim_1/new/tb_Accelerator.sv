@@ -31,8 +31,8 @@ module tb_Accelerator();
     wire ap_idle;
     wire ap_done;
     
-    parameter row = 256;
-    parameter col = 256;
+    parameter row = 10;
+    parameter col = 10;
     
     Top #(.row(row), .col(col)) U1
     (
