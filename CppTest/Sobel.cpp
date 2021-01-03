@@ -36,18 +36,20 @@ int arr[ROW][COL] =
     { 192, 52, 139, 204, 33, 72, 131, 202, 109, 93, 120, 160, 95, 137, 241, 174, 76, 255, 8, 84, 69, 201, 132, 187, 132}};
 
 
+const double PI  =(3.1415)/2;
+
 int main(){
 
     for(int i = 0; i < ROW; i++)
     {
         for (int j = 0; j < COL; j++)
         {
-            if ((i==0) || (j==0) ||(i==ROW-1) || (j==COL-1)) cout << "0\t";
+            if ((i==0) || (j==0) ||(i==ROW-1) || (j==COL-1)) cout << "0\t \t";
             else{ 
-                int Gx = ((- (arr[i-1][j-1] + 2*arr[i-1][j] + arr[i-1][j+1]) + arr[i+1][j-1] + 2*arr[i+1][j] + arr[i+1][j+1])>>3);
-                int Gy = ((- (arr[i-1][j-1] + 2*arr[i][j-1] + arr[i+1][j-1]) + arr[i-1][j+1] + 2*arr[i][j+1] + arr[i+1][j+1])>>3);
+                int Gx = ((- (arr[i-1][j-1] + 2*arr[i][j-1] + arr[i+1][j-1]) + arr[i-1][j+1] + 2*arr[i][j+1] + arr[i+1][j+1])>>3);
+                int Gy = ((- (arr[i-1][j-1] + 2*arr[i-1][j] + arr[i-1][j+1]) + arr[i+1][j-1] + 2*arr[i+1][j] + arr[i+1][j+1])>>3);
 
-                cout <<  (Gx*Gx+Gy*Gy)  << "\t";
+                cout << Gy  << ',' << Gx <<  ',' << (int) sqrt(Gx*Gx+Gy*Gy) <<  ',' << (int) (atan2(Gy,Gx) * 64/PI) << "\t\t";
             }
         }
         cout << endl;

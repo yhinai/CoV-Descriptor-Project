@@ -5,8 +5,8 @@ module SobelAccelerator #(parameter row = 10, parameter col = 10)
     input ap_clk, 
     input ap_rst, 
     input [71:0] d_q0, 
-    output reg signed [7:0] d_d0_H,
     output reg signed [7:0] d_d0_V,
+    output reg signed [7:0] d_d0_H,
     output reg        [7:0] sqrt_Gx_Gy,
     output reg signed [7:0] atan_Gx_Gy,
     output reg [31:0] d_address_read,
@@ -27,36 +27,34 @@ module SobelAccelerator #(parameter row = 10, parameter col = 10)
     
     reg [31:0] addrWrite = 0;
     
-    integer i=0, j=0;
     
-    wire signed [7:0] H_sobel;
+    
     wire signed [7:0] V_sobel;
+    wire signed [7:0] H_sobel;
     wire        [7:0] sqrt_GxGy;
     wire signed [7:0] atan_GxGy;
-
-    wire [7:0] c1,c2,c3,c4,c5,c6,c7,c8,c9;
-    
-    assign c1 = d_q0[71:64];
-    assign c2 = d_q0[63:56];
-    assign c3 = d_q0[55:48];
-
-    assign c4 = d_q0[47:40];
-    assign c5 = d_q0[39:32];
-    assign c6 = d_q0[31:24];
-    
-    assign c7 = d_q0[23:16];
-    assign c8 = d_q0[15:8 ];
-    assign c9 = d_q0[7 :0 ];
-    
-    assign H_sobel = (d_address_write/col != 0 && d_address_write%col != 0 && d_address_write/col != (row-1) && d_address_write%col != (col-1))? (-c1-2*c2-c3+c7+2*c8+c9)>>3 : 0;
-    assign V_sobel = (d_address_write/col != 0 && d_address_write%col != 0 && d_address_write/col != (row-1) && d_address_write%col != (col-1))? (-c1-2*c4-c7+c3+2*c6+c9)>>3 : 0;    
-
-    sqrt s0(H_sobel, V_sobel, sqrt_GxGy);
     
     
-    atan a0(H_sobel, V_sobel, atan_GxGy);
-
+    sobelAlg#(row, col) SA0(d_q0, d_address_write, V_sobel, H_sobel);
     
+    sqrt S0(V_sobel, H_sobel, sqrt_GxGy);
+    
+    atan A0(V_sobel, H_sobel, atan_GxGy);
+    
+    
+    integer i=0, j=0;
+    
+    initial begin
+        addrWrite <= 0;
+        d_ce0 <= 0;
+        d_we0 <= 0;
+        i <= 0;
+        j <= 0;
+        ap_idle <= 1;
+        ap_done <= 0;
+    end
+    
+    //scan ever cell in the array
     always @ (posedge ap_clk) begin
         if (ap_rst)begin 
             ap_start <= 1;
@@ -64,7 +62,6 @@ module SobelAccelerator #(parameter row = 10, parameter col = 10)
             ap_done <= 0;
             i <= 0;
             j <= 0;
-            
             
             STATE <= START;
         end        
@@ -76,7 +73,6 @@ module SobelAccelerator #(parameter row = 10, parameter col = 10)
                 i <= 0;
                 j <= 0;
                 ap_idle <= 1;
-                ap_done <= 0;
 
             end
             
@@ -98,8 +94,8 @@ module SobelAccelerator #(parameter row = 10, parameter col = 10)
                 addrWrite <= (i*row)+j;
                 d_address_write <= addrWrite;
                 
-                d_d0_H <= H_sobel;
                 d_d0_V <= V_sobel;
+                d_d0_H <= H_sobel;
                 sqrt_Gx_Gy <= sqrt_GxGy;
                 atan_Gx_Gy <= atan_GxGy;
                 
@@ -112,8 +108,8 @@ module SobelAccelerator #(parameter row = 10, parameter col = 10)
             end   
             
             LAST: begin
-                d_d0_H <= H_sobel;
                 d_d0_V <= V_sobel;
+                d_d0_H <= H_sobel;
                 sqrt_Gx_Gy <= sqrt_GxGy;
                 atan_Gx_Gy <= atan_GxGy;
 
@@ -122,7 +118,7 @@ module SobelAccelerator #(parameter row = 10, parameter col = 10)
                 ap_done <= 1;
                 STATE <= IDLE;
             end
- 
+
         endcase        
     end
     

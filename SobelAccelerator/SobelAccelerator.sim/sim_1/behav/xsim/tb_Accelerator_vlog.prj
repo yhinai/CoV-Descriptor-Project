@@ -4,6 +4,7 @@ sv xil_defaultlib  \
 "../../../../SobelAccelerator.srcs/sources_1/new/SobelAccelerator.sv" \
 "../../../../SobelAccelerator.srcs/sources_1/new/Top.sv" \
 "../../../../SobelAccelerator.srcs/sources_1/new/atan.sv" \
+"../../../../SobelAccelerator.srcs/sources_1/new/sobelAlg.sv" \
 "../../../../SobelAccelerator.srcs/sources_1/new/sqrt.sv" \
 "../../../../SobelAccelerator.srcs/sim_1/new/tb_Accelerator.sv" \
 
