@@ -41,7 +41,6 @@ module SobelAccelerator #(parameter row = 10, parameter col = 10)
     
     atan A0(V_sobel, H_sobel, atan_GxGy);
     
-    
     integer i=0, j=0;
     
     initial begin

@@ -36,7 +36,13 @@ int arr[ROW][COL] =
     { 192, 52, 139, 204, 33, 72, 131, 202, 109, 93, 120, 160, 95, 137, 241, 174, 76, 255, 8, 84, 69, 201, 132, 187, 132}};
 
 
+int arrGx[ROW][COL];
+int arrGy[ROW][COL];
+
+
 const double PI  =(3.1415)/2;
+
+
 
 int main(){
 
@@ -48,8 +54,15 @@ int main(){
             else{ 
                 int Gx = ((- (arr[i-1][j-1] + 2*arr[i][j-1] + arr[i+1][j-1]) + arr[i-1][j+1] + 2*arr[i][j+1] + arr[i+1][j+1])>>3);
                 int Gy = ((- (arr[i-1][j-1] + 2*arr[i-1][j] + arr[i-1][j+1]) + arr[i+1][j-1] + 2*arr[i+1][j] + arr[i+1][j+1])>>3);
+                arrGx[i][j] = Gx;
+                arrGy[i][j] = Gy;
 
-                cout << Gy  << ',' << Gx <<  ',' << (int) sqrt(Gx*Gx+Gy*Gy) <<  ',' << (int) (atan2(Gy,Gx) * 64/PI) << "\t\t";
+                int hor = (j == 0)? 0 : arrGx[i][j-1];
+                int lat = (i == 0)? 0 : arrGx[i-1][j];
+                int inc = (i == 0 || j == 0)? 0 : arrGx[i-1][j-1];
+
+                int integraleGx = Gx + hor + lat - inc;
+                cout << Gy  << ',' << Gx <<  ',' << (int) sqrt(Gx*Gx+Gy*Gy) <<  ',' << (int) (atan2(Gy,Gx) * 64/PI)  << ',' << integraleGx << "\t\t";
             }
         }
         cout << endl;
