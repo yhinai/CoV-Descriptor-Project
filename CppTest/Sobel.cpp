@@ -36,8 +36,11 @@ int arr[ROW][COL] =
     { 192, 52, 139, 204, 33, 72, 131, 202, 109, 93, 120, 160, 95, 137, 241, 174, 76, 255, 8, 84, 69, 201, 132, 187, 132}};
 
 
-int arrGx[ROW][COL];
-int arrGy[ROW][COL];
+int arrRes[ROW][COL][8];
+int hor [4];
+int lat [4];
+int inc [4];
+
 
 
 const double PI  =(3.1415)/2;
@@ -50,23 +53,50 @@ int main(){
     {
         for (int j = 0; j < COL; j++)
         {
-            if ((i==0) || (j==0) ||(i==ROW-1) || (j==COL-1)) cout << "0\t \t";
+            if ((i==0) || (j==0) ||(i==ROW-1) || (j==COL-1)) cout << "0\t";
             else{ 
                 int Gx = ((- (arr[i-1][j-1] + 2*arr[i][j-1] + arr[i+1][j-1]) + arr[i-1][j+1] + 2*arr[i][j+1] + arr[i+1][j+1])>>3);
                 int Gy = ((- (arr[i-1][j-1] + 2*arr[i-1][j] + arr[i-1][j+1]) + arr[i+1][j-1] + 2*arr[i+1][j] + arr[i+1][j+1])>>3);
-                arrGx[i][j] = Gx;
-                arrGy[i][j] = Gy;
+                arrRes[i][j][0] = Gx;
+                arrRes[i][j][1] = Gy;
+                arrRes[i][j][2] = (int) sqrt(Gx*Gx+Gy*Gy);
+                arrRes[i][j][3] = (int) (atan2(Gy,Gx) * 64/PI);
 
-                int hor = (j == 0)? 0 : arrGx[i][j-1];
-                int lat = (i == 0)? 0 : arrGx[i-1][j];
-                int inc = (i == 0 || j == 0)? 0 : arrGx[i-1][j-1];
+                hor[0] = (j == 0)? 0 : arrRes[i][j-1][0];
+                lat[0] = (i == 0)? 0 : arrRes[i-1][j][0];
+                inc[0] = (i == 0 || j == 0)? 0 : arrRes[i-1][j-1][0];
 
-                int integraleGx = Gx + hor + lat - inc;
-                cout << Gy  << ',' << Gx <<  ',' << (int) sqrt(Gx*Gx+Gy*Gy) <<  ',' << (int) (atan2(Gy,Gx) * 64/PI)  << ',' << integraleGx << "\t\t";
+                hor[1] = (j == 0)? 0 : arrRes[i][j-1][1];
+                lat[1] = (i == 0)? 0 : arrRes[i-1][j][1];
+                inc[1] = (i == 0 || j == 0)? 0 : arrRes[i-1][j-1][1];
+
+                hor[2] = (j == 0)? 0 : arrRes[i][j-1][2];
+                lat[2] = (i == 0)? 0 : arrRes[i-1][j][2];
+                inc[2] = (i == 0 || j == 0)? 0 : arrRes[i-1][j-1][2];
+
+                hor[3] = (j == 0)? 0 : arrRes[i][j-1][3];
+                lat[3] = (i == 0)? 0 : arrRes[i-1][j][3];
+                inc[3] = (i == 0 || j == 0)? 0 : arrRes[i-1][j-1][3];
+
+
+                arrRes[i][j][4] = (Gx + hor[0] + lat[0] - inc[0])>>2;
+                arrRes[i][j][5] = (Gy + hor[1] + lat[1] - inc[1])>>2;
+
+                arrRes[i][j][6] = (arrRes[i][j][2] + hor[2] + lat[2] - inc[2])>>2;
+                arrRes[i][j][7] = (arrRes[i][j][3] + hor[3] + lat[3] - inc[3])>>2;
+
+                cout << Gy  << '\t' << Gx <<  '\t' << arrRes[i][j][2] <<  '\t' << arrRes[i][j][3]  << '\t' << arrRes[i][j][4]  << '\t' << arrRes[i][j][5] << '\t' << arrRes[i][j][6] << '\t' << arrRes[i][j][7] << "\n";
+
+                if (arrRes[i][j][4] > 127 || arrRes[i][j][4] < -128) exit(0);
+                if (arrRes[i][j][5] > 127 || arrRes[i][j][5] < -128) exit(0);
+                if (arrRes[i][j][6] > 127 || arrRes[i][j][6] < -128) exit(0);
+                if (arrRes[i][j][7] > 127 || arrRes[i][j][7] < -128) exit(0);
+                
             }
         }
-        cout << endl;
+        // cout << endl;
     }
+
 
     return 0;
 }

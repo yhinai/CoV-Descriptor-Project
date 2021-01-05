@@ -45,7 +45,7 @@ module sobelAlg#(parameter row = 10, parameter col = 10)
     assign c8 = d_q0[15:8 ];
     assign c9 = d_q0[7 :0 ];
     
-    assign V_sobel = (d_address_write/col != 0 && d_address_write%col != 0 && d_address_write/col != (row-1) && d_address_write%col != (col-1))? (-c1-2*c4-c7+c3+2*c6+c9)>>3 : 0;    
-    assign H_sobel = (d_address_write/col != 0 && d_address_write%col != 0 && d_address_write/col != (row-1) && d_address_write%col != (col-1))? (-c1-2*c2-c3+c7+2*c8+c9)>>3 : 0;
+    assign V_sobel = (d_address_write/col != 0 && d_address_write%col != 0 && d_address_write/col != (row-1) && d_address_write%col != (col-1))? (-c1-2*c4-c7+c3+2*c6+c9)>>>3 : 0;    
+    assign H_sobel = (d_address_write/col != 0 && d_address_write%col != 0 && d_address_write/col != (row-1) && d_address_write%col != (col-1))? (-c1-2*c2-c3+c7+2*c8+c9)>>>3 : 0;
 
 endmodule

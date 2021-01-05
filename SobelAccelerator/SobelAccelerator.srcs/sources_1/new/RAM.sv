@@ -77,10 +77,10 @@ module RAM #(parameter row = 10, parameter col = 10)
     assign c8 = (d_address_read/col == (row-1)                                 )? 0 : mem[(d_address_read/col)+1][(d_address_read%col)]  [0];
     assign c9 = (d_address_read/col == (row-1) || d_address_read%col == (col-1))? 0 : mem[(d_address_read/col)+1][(d_address_read%col)+1][0];
 
-    wire [7:0] d_d0_V_integrale;
-    wire [7:0] d_d0_H_integrale;
-    wire [7:0] sqrt_Gx_Gy_integrale;
-    wire [7:0] atan_Gx_Gy_integrale;
+    wire signed [7:0] d_d0_V_integrale;
+    wire signed [7:0] d_d0_H_integrale;
+    wire signed [7:0] sqrt_Gx_Gy_integrale;
+    wire signed [7:0] atan_Gx_Gy_integrale;
 
     integrale #(.row(row), .col(col)) I1(d_d0_V, d_address_write,
                                                 mem[(d_address_write/col)-1][(d_address_write%col)][1], 
