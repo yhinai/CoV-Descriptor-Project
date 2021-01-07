@@ -7,6 +7,7 @@
 ### RAM module ###
 - The input array is saved here.
 - Sending and Receiving data could be done simultaneously accessing different addresses of the array. This can be further expanded by dealing with several inputs and outputs being requested at the same time.
+- all of the outputs (Gx, Gy, sqrt(), atan2()) are saved in the RAM module as form of array.
 
 ### SobelAccelerator module ###
 - The computaoinal part of sobel operation is done here. The module calculates gradient direction based on Gx and Gy. In additoin, SobelAccelerator module generates the output of sqrt(Gx^2 + Gy^2) and atan2(Gy/Gx). All of these operatoins are done at the same clk cycle.
