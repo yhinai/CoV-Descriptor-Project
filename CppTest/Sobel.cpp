@@ -94,7 +94,7 @@ int main(){
                 arrRes[i][j][1] = Gx;
                 arrRes[i][j][2] = Gy;
                 arrRes[i][j][3] = (int) sqrt(Gx*Gx+Gy*Gy);
-                arrRes[i][j][4] = (int) (atan2(Gy,Gx) * 64/PI);
+                arrRes[i][j][4] = (int) ((atan2(Gy,Gx) * 64/PI));
 
                 hor[0] = (j == 0)? 0 : arrRes[i][j-1][5];
                 lat[0] = (i == 0)? 0 : arrRes[i-1][j][5];
