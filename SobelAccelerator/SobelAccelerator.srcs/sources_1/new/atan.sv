@@ -55,7 +55,7 @@ module atan(
         
     assign preOut1 = (NumDen)? (AtanSeries) : 64-(AtanSeries);
     assign preOut2 = (Q1)? preOut1 : (Q2)? 127-preOut1 : (Q3)? preOut1-128 : -preOut1;
-    assign out = (x == 0 && y == 0)? 0 : (x == 0 && y > 0)? 0 : (x == 0 && y < 0)? 127 : (x > 0 && y == 0)? 64 : (x < 0 && y == 0)? -64 : preOut2;
+    assign out = (x == 0 && y == 0)? 0 : (y == 0 && x > 0)? 0 : (y == 0 && x < 0)? 127 : (y > 0 && x == 0)? 64 : (y < 0 && x == 0)? -64 : preOut2;
 
     
     

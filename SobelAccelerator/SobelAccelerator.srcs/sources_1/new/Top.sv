@@ -4,23 +4,25 @@ module Top #(parameter row = 10, parameter col = 10)
     (
     input ap_clk,
     input ap_rst,
-    output wire signed [7:0] d_d0_H,
-    output wire signed [7:0] d_d0_V,
-    output [7:0] sqrt_Gx_Gy,
-    output wire signed [7:0] atan_Gx_Gy,
+    output signed [7:0] memOut [0:9],
+
     output ap_start,
     output ap_idle,
     output ap_done
     );
     
+    
     wire [71:0] d_q0;
     wire [31:0] d_address_read;
     wire [31:0] d_address_write;
-//    wire [7:0] sqrt_Gx_Gy;
-//    wire [7:0] atan_Gx_Gy;
+
+    wire signed [7:0] d_d0_H;
+    wire signed [7:0] d_d0_V;
+    wire [7:0] sqrt_Gx_Gy;
+    wire signed [7:0] atan_Gx_Gy;
+        
     wire d_we0;
     wire d_ce0;
-    
 
     SobelAccelerator #(.row(row), .col(col) ) SA (
         .ap_clk (ap_clk), 
@@ -51,6 +53,7 @@ module Top #(parameter row = 10, parameter col = 10)
         .d_address_write (d_address_write),
         .d_we0 (d_we0),
         .d_ce0 (d_ce0),
+        .memOut (memOut),
         .d_q0 (d_q0)
         );
 

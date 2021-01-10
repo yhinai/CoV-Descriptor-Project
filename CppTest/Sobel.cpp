@@ -2,13 +2,14 @@
 #include <string>
 #include <complex> 
 #include <math.h>
+#include <iomanip>
 
 using namespace std;  
 
 #define ROW 25
 #define COL 25
 
-int arr[ROW][COL] = 
+int arr[25][25] = 
     {{ 132, 110, 103, 39, 226, 231, 94, 112, 173, 96, 229, 246, 211, 33, 230, 182, 199, 37, 51, 198, 117, 94, 1, 81, 49},
     { 135, 92, 248, 132, 192, 54, 104, 5, 157, 204, 203, 225, 232, 225, 42, 182, 229, 226, 192, 40, 57, 233, 246, 210, 15},
     { 149, 8, 75, 20, 165, 140, 148, 6, 113, 197, 55, 126, 185, 159, 148, 229, 123, 98, 19, 31, 42, 175, 247, 147, 155},
@@ -36,10 +37,10 @@ int arr[ROW][COL] =
     { 192, 52, 139, 204, 33, 72, 131, 202, 109, 93, 120, 160, 95, 137, 241, 174, 76, 255, 8, 84, 69, 201, 132, 187, 132}};
 
 
-int arrRes[ROW][COL][8];
-int hor [4];
-int lat [4];
-int inc [4];
+int arrRes[ROW][COL][10];
+int hor [5];
+int lat [5];
+int inc [5];
 
 
 
@@ -53,18 +54,10 @@ int main(){
     {
         for (int j = 0; j < COL; j++)
         {
-            if ((i==0) || (j==0) ||(i==ROW-1) || (j==COL-1)) cout << "0\t";
-            else{ 
-                int Gx = ((- (arr[i-1][j-1] + 2*arr[i][j-1] + arr[i+1][j-1]) + arr[i-1][j+1] + 2*arr[i][j+1] + arr[i+1][j+1])>>3);
-                int Gy = ((- (arr[i-1][j-1] + 2*arr[i-1][j] + arr[i-1][j+1]) + arr[i+1][j-1] + 2*arr[i+1][j] + arr[i+1][j+1])>>3);
-                arrRes[i][j][0] = Gx;
-                arrRes[i][j][1] = Gy;
-                arrRes[i][j][2] = (int) sqrt(Gx*Gx+Gy*Gy);
-                arrRes[i][j][3] = (int) (atan2(Gy,Gx) * 64/PI);
-
-                hor[0] = (j == 0)? 0 : arrRes[i][j-1][0];
-                lat[0] = (i == 0)? 0 : arrRes[i-1][j][0];
-                inc[0] = (i == 0 || j == 0)? 0 : arrRes[i-1][j-1][0];
+            if ((i==0) || (j==0) ||(i==ROW-1) || (j==COL-1)) {
+                hor[0] = (j == 0)? 0 : arrRes[i][j-1][5];
+                lat[0] = (i == 0)? 0 : arrRes[i-1][j][5];
+                inc[0] = (i == 0 || j == 0)? 0 : arrRes[i-1][j-1][5];
 
                 hor[1] = (j == 0)? 0 : arrRes[i][j-1][1];
                 lat[1] = (i == 0)? 0 : arrRes[i-1][j][1];
@@ -78,23 +71,72 @@ int main(){
                 lat[3] = (i == 0)? 0 : arrRes[i-1][j][3];
                 inc[3] = (i == 0 || j == 0)? 0 : arrRes[i-1][j-1][3];
 
-
-                arrRes[i][j][4] = (Gx + hor[0] + lat[0] - inc[0])>>2;
-                arrRes[i][j][5] = (Gy + hor[1] + lat[1] - inc[1])>>2;
-
-                arrRes[i][j][6] = (arrRes[i][j][2] + hor[2] + lat[2] - inc[2])>>2;
-                arrRes[i][j][7] = (arrRes[i][j][3] + hor[3] + lat[3] - inc[3])>>2;
-
-                cout << Gy  << '\t' << Gx <<  '\t' << arrRes[i][j][2] <<  '\t' << arrRes[i][j][3]  << '\t' << arrRes[i][j][4]  << '\t' << arrRes[i][j][5] << '\t' << arrRes[i][j][6] << '\t' << arrRes[i][j][7] << "\n";
-
-                if (arrRes[i][j][4] > 127 || arrRes[i][j][4] < -128) exit(0);
-                if (arrRes[i][j][5] > 127 || arrRes[i][j][5] < -128) exit(0);
-                if (arrRes[i][j][6] > 127 || arrRes[i][j][6] < -128) exit(0);
-                if (arrRes[i][j][7] > 127 || arrRes[i][j][7] < -128) exit(0);
+                hor[4] = (j == 0)? 0 : arrRes[i][j-1][4];
+                lat[4] = (i == 0)? 0 : arrRes[i-1][j][4];
+                inc[4] = (i == 0 || j == 0)? 0 : arrRes[i-1][j-1][4];
                 
+
+                arrRes[i][j][0] = arr[i][j];
+                arrRes[i][j][1] = 0;
+                arrRes[i][j][2] = 0;
+                arrRes[i][j][3] = 0;
+                arrRes[i][j][4] = 0;
+                arrRes[i][j][5] = (arr[i][j] + hor[0] + lat[0] - inc[0])>>2;
+                arrRes[i][j][6] = (arrRes[i][j][1] + hor[1] + lat[1] - inc[1])>>2;
+                arrRes[i][j][7] = (arrRes[i][j][2] + hor[2] + lat[2] - inc[2])>>2;
+                arrRes[i][j][8] = (arrRes[i][j][3] + hor[2] + lat[3] - inc[3])>>2;
+                arrRes[i][j][9] = (arrRes[i][j][4] + hor[4] + lat[4] - inc[4])>>2;
             }
+            else{ 
+                arrRes[i][j][0] = arr[i][j];
+                int Gx = ((- (arr[i-1][j-1] + 2*arr[i][j-1] + arr[i+1][j-1]) + arr[i-1][j+1] + 2*arr[i][j+1] + arr[i+1][j+1])>>3);
+                int Gy = ((- (arr[i-1][j-1] + 2*arr[i-1][j] + arr[i-1][j+1]) + arr[i+1][j-1] + 2*arr[i+1][j] + arr[i+1][j+1])>>3);
+                arrRes[i][j][1] = Gx;
+                arrRes[i][j][2] = Gy;
+                arrRes[i][j][3] = (int) sqrt(Gx*Gx+Gy*Gy);
+                arrRes[i][j][4] = (int) (atan2(Gy,Gx) * 64/PI);
+
+                hor[0] = (j == 0)? 0 : arrRes[i][j-1][5];
+                lat[0] = (i == 0)? 0 : arrRes[i-1][j][5];
+                inc[0] = (i == 0 || j == 0)? 0 : arrRes[i-1][j-1][5];
+
+                hor[1] = (j == 0)? 0 : arrRes[i][j-1][1];
+                lat[1] = (i == 0)? 0 : arrRes[i-1][j][1];
+                inc[1] = (i == 0 || j == 0)? 0 : arrRes[i-1][j-1][1];
+
+                hor[2] = (j == 0)? 0 : arrRes[i][j-1][2];
+                lat[2] = (i == 0)? 0 : arrRes[i-1][j][2];
+                inc[2] = (i == 0 || j == 0)? 0 : arrRes[i-1][j-1][2];
+
+                hor[3] = (j == 0)? 0 : arrRes[i][j-1][3];
+                lat[3] = (i == 0)? 0 : arrRes[i-1][j][3];
+                inc[3] = (i == 0 || j == 0)? 0 : arrRes[i-1][j-1][3];
+
+                hor[4] = (j == 0)? 0 : arrRes[i][j-1][4];
+                lat[4] = (i == 0)? 0 : arrRes[i-1][j][4];
+                inc[4] = (i == 0 || j == 0)? 0 : arrRes[i-1][j-1][4];
+
+                arrRes[i][j][5] = (arrRes[i][j][0] + hor[0] + lat[0] - inc[0])>>2;
+
+                arrRes[i][j][6] = (Gx + hor[1] + lat[1] - inc[1])>>2;
+                arrRes[i][j][7] = (Gy + hor[2] + lat[2] - inc[2])>>2;
+
+                arrRes[i][j][8] = (arrRes[i][j][3] + hor[2] + lat[3] - inc[3])>>2;
+                arrRes[i][j][9] = (arrRes[i][j][4] + hor[4] + lat[4] - inc[4])>>2;
+            }
+
+            cout << setw(3) << arrRes[i][j][0] << "," << setw(4) << arrRes[i][j][1] << "," << setw(4) << arrRes[i][j][2] << "," << setw(4) << arrRes[i][j][3] << "," 
+                 << setw(4) << arrRes[i][j][4] << "," << setw(3) << arrRes[i][j][5]/* << "," << setw(4) << arrRes[i][j][6] << "," << setw(4) << arrRes[i][j][7] << ","
+                 << setw(4) << arrRes[i][j][8] << "," << setw(4) << arrRes[i][j][9] */<< "\n";
+
+            if (arrRes[i][j][6] > 127 || arrRes[i][j][6] < -128) exit(0);
+            if (arrRes[i][j][7] > 127 || arrRes[i][j][7] < -128) exit(0);
+            if (arrRes[i][j][8] > 127 || arrRes[i][j][8] < -128) exit(0);
+            if (arrRes[i][j][9] > 127 || arrRes[i][j][9] < -128) exit(0);
+            
+        
         }
-        // cout << endl;
+        cout << endl;
     }
 
 

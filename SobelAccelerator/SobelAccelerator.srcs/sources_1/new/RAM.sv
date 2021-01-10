@@ -12,14 +12,17 @@ module RAM #(parameter row = 10, parameter col = 10)
     input [31:0] d_address_write,
     input d_we0,
     input d_ce0,
-
+    
+    output signed [7:0] memOut [0:9],
     output reg [71:0] d_q0
     );
+
+
     
-    reg signed [31:0] mem [0:row-1][0:col-1][0:6];
+    reg signed [7:0] mem [0:row-1][0:col-1][0:9];
     
     //For testing 
-    reg [7:0] test [0:24][0:24] =
+    reg [7:0] testArr [0:24][0:24] =
     '{'{8'd132, 8'd110, 8'd103, 8'd39, 8'd226, 8'd231, 8'd94, 8'd112, 8'd173, 8'd96, 8'd229, 8'd246, 8'd211, 8'd33, 8'd230, 8'd182, 8'd199, 8'd37, 8'd51, 8'd198, 8'd117, 8'd94, 8'd1, 8'd81, 8'd49},
     '{ 8'd135, 8'd92, 8'd248, 8'd132, 8'd192, 8'd54, 8'd104, 8'd5, 8'd157, 8'd204, 8'd203, 8'd225, 8'd232, 8'd225, 8'd42, 8'd182, 8'd229, 8'd226, 8'd192, 8'd40, 8'd57, 8'd233, 8'd246, 8'd210, 8'd15},
     '{ 8'd149, 8'd8, 8'd75, 8'd20, 8'd165, 8'd140, 8'd148, 8'd6, 8'd113, 8'd197, 8'd55, 8'd126, 8'd185, 8'd159, 8'd148, 8'd229, 8'd123, 8'd98, 8'd19, 8'd31, 8'd42, 8'd175, 8'd247, 8'd147, 8'd155},
@@ -51,13 +54,7 @@ module RAM #(parameter row = 10, parameter col = 10)
     initial begin
         for (i = 0; i < row; i = i+1) begin
             for (j = 0; j < col; j = j+1) begin
-                mem[i][j][0] <= test[i][j];
-                mem[i][j][1] <= 0;
-                mem[i][j][2] <= 0;
-                mem[i][j][3] <= 0;
-                mem[i][j][4] <= 0;
-                mem[i][j][5] <= 0;
-                mem[i][j][6] <= 0;
+                mem[i][j] <= '{testArr[i][j], 0, 0, 0, 0, 0, 0, 0, 0, 0};
             end
         end
     end
@@ -77,24 +74,52 @@ module RAM #(parameter row = 10, parameter col = 10)
     assign c8 = (d_address_read/col == (row-1)                                 )? 0 : mem[(d_address_read/col)+1][(d_address_read%col)]  [0];
     assign c9 = (d_address_read/col == (row-1) || d_address_read%col == (col-1))? 0 : mem[(d_address_read/col)+1][(d_address_read%col)+1][0];
 
+    reg [7:0] TEST_1,TEST_2,TEST_3,TEST_4;
+
+    always @ (posedge ap_clk) begin
+        if (d_ce0) begin
+            d_q0 <= {c1,c2,c3,c4,c5,c6,c7,c8,c9};
+//            TEST_1 <= mem[(d_address_write/col)]  [(d_address_write%col)]  [0];
+//            TEST_2 <= mem[(d_address_write/col)-1][(d_address_write%col)]  [0];
+//            TEST_3 <= mem[(d_address_write/col)]  [(d_address_write%col)-1][0];
+//            TEST_4 <= mem[(d_address_write/col)-1][(d_address_write%col)-1][0];
+            
+        end
+        
+    end
+
+    wire [7:0] image_integrale;
     wire signed [7:0] d_d0_V_integrale;
     wire signed [7:0] d_d0_H_integrale;
-    wire signed [7:0] sqrt_Gx_Gy_integrale;
+    wire [7:0] sqrt_Gx_Gy_integrale;
     wire signed [7:0] atan_Gx_Gy_integrale;
 
+
+    reg [31:0] d_address_write_TB;
+    reg [31:0] d_address_write_TB2;
+    reg [31:0] TEST001;
+
+
+
+    unsigned_integrale #(.row(row), .col(col)) I0(mem[((d_address_write)/col)]  [((d_address_write)%col)]  [0], d_address_write,
+                                                  mem[((d_address_write)/col)-1][((d_address_write)%col)]  [5], 
+                                                  mem[((d_address_write)/col)]  [((d_address_write)%col)-1][5],
+                                                  mem[((d_address_write)/col)-1][((d_address_write)%col)-1][5],
+                                                  image_integrale);
+    
     integrale #(.row(row), .col(col)) I1(d_d0_V, d_address_write,
                                                 mem[(d_address_write/col)-1][(d_address_write%col)][1], 
                                                 mem[(d_address_write/col)][(d_address_write%col)-1][1], 
                                                 mem[(d_address_write/col)-1][(d_address_write%col)-1][1],
                                                 d_d0_V_integrale);
-                                                
+
     integrale #(.row(row), .col(col)) I2(d_d0_H, d_address_write,
                                                 mem[(d_address_write/col)-1][(d_address_write%col)][2], 
                                                 mem[(d_address_write/col)][(d_address_write%col)-1][2], 
                                                 mem[(d_address_write/col)-1][(d_address_write%col)-1][2],
                                                 d_d0_H_integrale);                                                
 
-    integrale #(.row(row), .col(col)) I3(sqrt_Gx_Gy, d_address_write,
+    unsigned_integrale #(.row(row), .col(col)) I3(sqrt_Gx_Gy, d_address_write,
                                                 mem[(d_address_write/col)-1][(d_address_write%col)][3], 
                                                 mem[(d_address_write/col)][(d_address_write%col)-1][3], 
                                                 mem[(d_address_write/col)-1][(d_address_write%col)-1][3],
@@ -105,27 +130,35 @@ module RAM #(parameter row = 10, parameter col = 10)
                                                 mem[(d_address_write/col)][(d_address_write%col)-1][4], 
                                                 mem[(d_address_write/col)-1][(d_address_write%col)-1][4],
                                                 atan_Gx_Gy_integrale);                                                
+
     
+    //Send to TB for testing
+    assign memOut = mem[d_address_write_TB2/col][d_address_write_TB2%col];
+    
+    reg writeEnable = 0;
+    reg [7:0] image_integrale2 = image_integrale;
     always @ (posedge ap_clk) begin
-        if (d_ce0) begin
-            d_q0 <= {c1,c2,c3,c4,c5,c6,c7,c8,c9};
-        end
-        
-    end
-
-
-    always @ (posedge ap_clk) begin
-        if (d_we0) begin
-            mem[d_address_write/col][d_address_write%col][1] <= d_d0_V;
-            mem[d_address_write/col][d_address_write%col][2] <= d_d0_H;
-            mem[d_address_write/col][d_address_write%col][3] <= sqrt_Gx_Gy;
-            mem[d_address_write/col][d_address_write%col][4] <= atan_Gx_Gy;
-            mem[d_address_write/col][d_address_write%col][5] <= d_d0_V_integrale;
-            mem[d_address_write/col][d_address_write%col][6] <= d_d0_H_integrale;
-            mem[d_address_write/col][d_address_write%col][7] <= sqrt_Gx_Gy_integrale;
-            mem[d_address_write/col][d_address_write%col][8] <= atan_Gx_Gy_integrale;
+        if (d_we0) begin            
+            d_address_write_TB <= d_address_write;
+            image_integrale2 <= {image_integrale};
+            writeEnable <= 1;
         end
     end
     
+    always @ (negedge ap_clk) begin
+        if (writeEnable) begin
+            d_address_write_TB2 <= d_address_write_TB;
+            
+            mem[d_address_write_TB/col][d_address_write_TB%col][1:5] <= {d_d0_V, d_d0_H, sqrt_Gx_Gy, atan_Gx_Gy, image_integrale2};
+//            mem[d_address_write_TB/col][d_address_write_TB%col][5] <= {image_integrale};
+//            mem[d_address_write_TB/col][d_address_write_TB%col][6] <= d_d0_V_integrale;
+//            mem[d_address_write_TB/col][d_address_write_TB%col][7] <= d_d0_H_integrale;
+//            mem[d_address_write_TB/col][d_address_write_TB%col][8] <= sqrt_Gx_Gy_integrale;
+//            mem[d_address_write_TB/col][d_address_write_TB%col][9] <= atan_Gx_Gy_integrale;
+            writeEnable <= 0;
+
+
+        end
+    end
     
 endmodule

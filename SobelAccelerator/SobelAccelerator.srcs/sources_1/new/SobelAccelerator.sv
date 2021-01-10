@@ -5,6 +5,7 @@ module SobelAccelerator #(parameter row = 10, parameter col = 10)
     input ap_clk, 
     input ap_rst, 
     input [71:0] d_q0, 
+    
     output reg signed [7:0] d_d0_V,
     output reg signed [7:0] d_d0_H,
     output reg        [7:0] sqrt_Gx_Gy,
@@ -33,7 +34,6 @@ module SobelAccelerator #(parameter row = 10, parameter col = 10)
     wire signed [7:0] H_sobel;
     wire        [7:0] sqrt_GxGy;
     wire signed [7:0] atan_GxGy;
-    
     
     sobelAlg#(row, col) SA0(d_q0, d_address_write, V_sobel, H_sobel);
     
@@ -71,6 +71,7 @@ module SobelAccelerator #(parameter row = 10, parameter col = 10)
                 d_we0 <= 0;
                 i <= 0;
                 j <= 0;
+                ap_done <= 0;
                 ap_idle <= 1;
 
             end
@@ -92,7 +93,7 @@ module SobelAccelerator #(parameter row = 10, parameter col = 10)
                 d_address_read <= (i*row)+j;
                 addrWrite <= (i*row)+j;
                 d_address_write <= addrWrite;
-                
+
                 d_d0_V <= V_sobel;
                 d_d0_H <= H_sobel;
                 sqrt_Gx_Gy <= sqrt_GxGy;
@@ -100,13 +101,14 @@ module SobelAccelerator #(parameter row = 10, parameter col = 10)
                 
                 d_ce0 <= 1;
                 d_we0 <= 1;
-                
+                //[24][23] -- [24][24]
                 j <= (j+1)%col; 
                 i <= ((j+1) >= col)? (i+1)%row : i ;
                 if ((i+1)%row == 0 && (j+1)%col == 0) STATE <= LAST;
             end   
             
             LAST: begin
+                d_address_write <= addrWrite;
                 d_d0_V <= V_sobel;
                 d_d0_H <= H_sobel;
                 sqrt_Gx_Gy <= sqrt_GxGy;
