@@ -50,6 +50,8 @@ const double PI  =(3.1415)/2;
 
 int main(){
 
+    cout << "index (pixel, Gx, Gy, sqrt, atan, pixel_Integrale)" << endl;
+
     for(int i = 0; i < ROW; i++)
     {
         for (int j = 0; j < COL; j++)
@@ -125,9 +127,10 @@ int main(){
                 arrRes[i][j][9] = (arrRes[i][j][4] + hor[4] + lat[4] - inc[4])>>2;
             }
 
+            cout << "[" << setw(2) << i << "][" << setw(2) << j << "] (";
             cout << setw(3) << arrRes[i][j][0] << "," << setw(4) << arrRes[i][j][1] << "," << setw(4) << arrRes[i][j][2] << "," << setw(4) << arrRes[i][j][3] << "," 
                  << setw(4) << arrRes[i][j][4] << "," << setw(3) << arrRes[i][j][5]/* << "," << setw(4) << arrRes[i][j][6] << "," << setw(4) << arrRes[i][j][7] << ","
-                 << setw(4) << arrRes[i][j][8] << "," << setw(4) << arrRes[i][j][9] */<< "\n";
+                 << setw(4) << arrRes[i][j][8] << "," << setw(4) << arrRes[i][j][9] */<< ")" << "\n";
 
             if (arrRes[i][j][6] > 127 || arrRes[i][j][6] < -128) exit(0);
             if (arrRes[i][j][7] > 127 || arrRes[i][j][7] < -128) exit(0);

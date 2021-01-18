@@ -53,9 +53,8 @@ module tb_Accelerator();
         ap_rst = 1;
         #10 ap_rst = 0;
         #30
-        repeat (row) begin 
-            operation();
-        end
+
+        operation();
         
         #50
 
@@ -65,21 +64,25 @@ module tb_Accelerator();
     end
     
 
-    integer i;
+    reg [5:0] i, j;
 
-    task operation;      
+    task operation;
+
+        $write (         "index (pixel, Gx, Gy, sqrt, atan, pixel_Integrale)\n");
+        $fwrite (LogRes, "index (pixel, Gx, Gy, sqrt, atan, pixel_Integrale)\n");
 
         begin 
-            for (i = 0; i < col; i = i + 1) begin
-                #10
-                $write (         "%d,%d,%d,%d,%d,%d\n", $unsigned(memOut[0]), memOut[1], memOut[2], memOut[3], memOut[4], $unsigned(memOut[5])/*, memOut[6], memOut[7], memOut[8], memOut[9]*/);
-                $fwrite (LogRes, "%d,%d,%d,%d,%d,%d\n", $unsigned(memOut[0]), memOut[1], memOut[2], memOut[3], memOut[4], $unsigned(memOut[5])/*, memOut[6], memOut[7], memOut[8], memOut[9]*/);
-
-            end
+            for (i = 0; i < row; i = i + 1) begin
+                for (j = 0; j < col; j = j + 1) begin
+                    #10
+                    $write (         "[%d][%d] (%d,%d,%d,%d,%d,%d)\n", i, j, $unsigned(memOut[0]), memOut[1], memOut[2], memOut[3], memOut[4], $unsigned(memOut[5])/*, memOut[6], memOut[7], memOut[8], memOut[9]*/);
+                    $fwrite (LogRes, "[%d][%d] (%d,%d,%d,%d,%d,%d)\n", i, j, $unsigned(memOut[0]), memOut[1], memOut[2], memOut[3], memOut[4], $unsigned(memOut[5])/*, memOut[6], memOut[7], memOut[8], memOut[9]*/);
+    
+                end
             
-            $write("\n");
-            $fwrite (LogRes, "\n");
-
+                $write("\n");
+                $fwrite (LogRes, "\n");
+            end
         end
     endtask
 

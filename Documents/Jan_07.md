@@ -1,4 +1,4 @@
-# Dec 25, 2020 - Image-Integrale functionality added + HW implementation
+# Jan 07, 2021 - Image-Integrale functionality added + HW implementation
 
 
 ### RAM module ###

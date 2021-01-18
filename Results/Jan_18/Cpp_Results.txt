@@ -1,3 +1,5 @@
+Cpp Results:
+
 index (pixel, Gx, Gy, sqrt, atan, pixel_Integrale)
 [ 0][ 0] (132,   0,   0,   0,   0, 33)
 [ 0][ 1] (110,   0,   0,   0,   0, 35)
