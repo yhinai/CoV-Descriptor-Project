@@ -651,4 +651,4 @@ index (pixel, Gx, Gy, sqrt, atan, pixel_Integrale)
 [24][23] (187,   0,   0,   0,   0, 52)
 [24][24] (132,   0,   0,   0,   0, 50)
 
-$finish called at time : 6340 ns : File "C:/Users/ALHINAI/Documents/GitHub/
+$finish called at time : 6340 ns : File "C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.srcs/sim_1/new/tb_Accelerator.sv" Line 62

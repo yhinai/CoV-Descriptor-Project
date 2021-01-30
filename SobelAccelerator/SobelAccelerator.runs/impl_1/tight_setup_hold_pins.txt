@@ -1,0 +1,14 @@
++--------------------------+--------------------------+----------------------------------------------------------------------------------------------------------+
+|       Launch Clock       |      Capture Clock       |                                                 Pin                                                      |
++--------------------------+--------------------------+----------------------------------------------------------------------------------------------------------+
+|              sys_clk_pin |              sys_clk_pin |                                                                                             SA/i_reg[2]/D|
+|              sys_clk_pin |              sys_clk_pin |                                                                                             SA/j_reg[3]/D|
+|              sys_clk_pin |              sys_clk_pin |                                                                                             SA/j_reg[2]/D|
+|              sys_clk_pin |              sys_clk_pin |                                                                                             SA/j_reg[1]/D|
+|              sys_clk_pin |              sys_clk_pin |                                                                                 R0/rightshiftreg_reg[2]/D|
+|              sys_clk_pin |              sys_clk_pin |                                                                                 R0/rightshiftreg_reg[6]/D|
+|              sys_clk_pin |              sys_clk_pin |                                                                                 R0/rightshiftreg_reg[1]/D|
+|              sys_clk_pin |              sys_clk_pin |                                                                                 R0/rightshiftreg_reg[5]/D|
+|              sys_clk_pin |              sys_clk_pin |                                                                                 R0/rightshiftreg_reg[7]/D|
+|              sys_clk_pin |              sys_clk_pin |                                                                                 R0/rightshiftreg_reg[4]/D|
++--------------------------+--------------------------+----------------------------------------------------------------------------------------------------------+

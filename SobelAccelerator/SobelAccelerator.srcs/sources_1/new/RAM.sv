@@ -3,6 +3,12 @@ module RAM #(parameter row = 10, parameter col = 10)
     (
     input ap_clk,
     input ap_rst,
+    //
+    input transmit, //btn signal to trigger the UART communication
+    input [7:0] data, // data transmitted
+    output reg TxD, // Transmitter serial output. TxD will be held high during reset, or when no transmissions aretaking place. 
+
+    //
     input signed [7:0] d_d0_V,
     input signed [7:0] d_d0_H,
     input        [7:0] sqrt_Gx_Gy,
@@ -13,16 +19,16 @@ module RAM #(parameter row = 10, parameter col = 10)
     input d_we0,
     input d_ce0,
     
-    output signed [7:0] memOut [0:9],
+//    output signed [7:0] memOut [0:9],
     output reg [71:0] d_q0
     );
 
 
     
-    reg signed [7:0] mem [0:row-1][0:col-1][0:9];
+    reg signed [0:7] mem [0:row-1][0:col-1][0:9];
     
     //For testing 
-    reg [7:0] testArr [0:24][0:24] =
+    reg [0:7] testArr [0:24][0:24] =
     '{'{8'd132, 8'd110, 8'd103, 8'd39, 8'd226, 8'd231, 8'd94, 8'd112, 8'd173, 8'd96, 8'd229, 8'd246, 8'd211, 8'd33, 8'd230, 8'd182, 8'd199, 8'd37, 8'd51, 8'd198, 8'd117, 8'd94, 8'd1, 8'd81, 8'd49},
     '{ 8'd135, 8'd92, 8'd248, 8'd132, 8'd192, 8'd54, 8'd104, 8'd5, 8'd157, 8'd204, 8'd203, 8'd225, 8'd232, 8'd225, 8'd42, 8'd182, 8'd229, 8'd226, 8'd192, 8'd40, 8'd57, 8'd233, 8'd246, 8'd210, 8'd15},
     '{ 8'd149, 8'd8, 8'd75, 8'd20, 8'd165, 8'd140, 8'd148, 8'd6, 8'd113, 8'd197, 8'd55, 8'd126, 8'd185, 8'd159, 8'd148, 8'd229, 8'd123, 8'd98, 8'd19, 8'd31, 8'd42, 8'd175, 8'd247, 8'd147, 8'd155},
@@ -133,20 +139,20 @@ module RAM #(parameter row = 10, parameter col = 10)
 
     
     //Send to TB for testing
-    assign memOut = mem[d_address_write_TB2/col][d_address_write_TB2%col];
+//    assign memOut = mem[d_address_write_TB2/col][d_address_write_TB2%col];
     
     reg writeEnable = 0;
     reg [7:0] image_integrale2 = image_integrale;
+    
     always @ (posedge ap_clk) begin
         if (d_we0) begin            
             d_address_write_TB <= d_address_write;
             image_integrale2 <= {image_integrale};
-            writeEnable <= 1;
+            //writeEnable <= 1;
         end
     end
     
     always @ (negedge ap_clk) begin
-        if (writeEnable) begin
             d_address_write_TB2 <= d_address_write_TB;
             
             mem[d_address_write_TB/col][d_address_write_TB%col][1:5] <= {d_d0_V, d_d0_H, sqrt_Gx_Gy, atan_Gx_Gy, image_integrale2};
@@ -155,10 +161,90 @@ module RAM #(parameter row = 10, parameter col = 10)
 //            mem[d_address_write_TB/col][d_address_write_TB%col][7] <= d_d0_H_integrale;
 //            mem[d_address_write_TB/col][d_address_write_TB%col][8] <= sqrt_Gx_Gy_integrale;
 //            mem[d_address_write_TB/col][d_address_write_TB%col][9] <= atan_Gx_Gy_integrale;
-            writeEnable <= 0;
+            //writeEnable <= 0;
 
 
-        end
     end
     
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//internal variables
+reg [3:0] bitcounter; //4 bits counter to count up to 10
+reg [13:0] counter; //14 bits counter to count the baud rate, counter = clock / baud rate
+reg [16:0] num = 0; //14 bits counter to count the baud rate, counter = clock / baud rate
+reg [1:0] state,nextstate; // initial & next state variable
+// 10 bits data needed to be shifted out during transmission.
+//The least significant bit is initialized with the binary value "0" (a start bit) A binary value "1" is introduced in the most significant bit 
+reg [9:0] rightshiftreg; 
+reg shift; //shift signal to start bit shifting in UART
+reg load; //load signal to start loading the data into rightshift register and add start and stop bit
+reg clear; //clear signal to start reset the bitcounter for UART transmission
+
+//UART transmission logic
+always @ (posedge ap_clk) 
+begin 
+    if (ap_rst) 
+	   begin // reset is asserted (reset = 1)
+        state <=0; // state is idle (state = 0)
+        counter <=0; // counter for baud rate is reset to 0 
+        bitcounter <=0; //counter for bit transmission is reset to 0
+       end
+    else begin
+         counter <= counter + 1; //counter for baud rate generator start counting 
+            if (counter >= 10416) //if count to 10416 (from 0 to 10415)
+               begin 
+                  state <= nextstate; //previous state change to next state
+                  counter <=0; // reset couter to 0
+            	  if (load) begin
+            	       rightshiftreg <= {1'b1, mem[(num/col)][(num%col)][1], 1'b0}; //load the data if load is asserted
+            	       num <= (num+1) % (625);
+            	       end
+		          if (clear) bitcounter <=0; // reset the bitcounter if clear is asserted
+                  if (shift) 
+                     begin // if shift is asserted
+                        rightshiftreg <= rightshiftreg >> 1; //right shift the data as we transmit the data from lsb
+                        bitcounter <= bitcounter + 1; //count the bitcounter
+                     end
+               end
+         end
+end 
+
+//state machine
+
+always @ (posedge ap_clk) //trigger by positive edge of clock, 
+//always @ (state or bitcounter or transmit)
+begin
+    load <=0; // set load equal to 0 at the beginning
+    shift <=0; // set shift equal to 0 at the beginning
+    clear <=0; // set clear equal to 0 at the beginning
+    TxD <=1; // set TxD equals to during no transmission
+    case (state)
+        0: begin // idle state
+             if (transmit || num != 0) begin // assert transmit input
+             nextstate <= 1; // Move to transmit state
+             load <=1; // set load to 1 to prepare to load the data
+             shift <=0; // set shift to 0 so no shift ready yet
+             clear <=0; // set clear to 0 to avoid clear any counter
+             end 
+		else begin // if transmit not asserted
+             nextstate <= 0; // next state is back to idle state
+             TxD <= 1; 
+             end
+           end
+        1: begin  // transmit state
+             if (bitcounter >=10) begin // check if transmission is complete or not. If complete
+             nextstate <= 0; // set nextstate back to 0 to idle state
+             clear <=1; // set clear to 1 to clear all counters
+             end 
+		else begin // if transmisssion is not complete 
+             nextstate <= 1; // set nextstate to 1 to stay in transmit state
+             TxD <= rightshiftreg[0]; // shift the bit to output TxD
+             shift <=1; // set shift to 1 to continue shifting the data
+             end
+           end
+         default: nextstate <= 0;                      
+    endcase
+end
+
+
 endmodule

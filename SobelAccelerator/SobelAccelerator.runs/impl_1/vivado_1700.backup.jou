@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.1.1 (64-bit)
+# SW Build 2960000 on Wed Aug  5 22:57:20 MDT 2020
+# IP Build 2956692 on Thu Aug  6 01:41:30 MDT 2020
+# Start of session at: Thu Jan 28 11:06:25 2021
+# Process ID: 1700
+# Current directory: C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.runs/impl_1
+# Command line: vivado.exe -log unsigned_integrale.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source unsigned_integrale.tcl -notrace
+# Log file: C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.runs/impl_1/unsigned_integrale.vdi
+# Journal file: C:/Users/ALHINAI/Documents/GitHub/CoV-Descriptor-Project/SobelAccelerator/SobelAccelerator.runs/impl_1\vivado.jou
+#-----------------------------------------------------------
+source unsigned_integrale.tcl -notrace
