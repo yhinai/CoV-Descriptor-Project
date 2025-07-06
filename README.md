@@ -509,29 +509,3 @@ parameter BAUD_COUNT = 100_000_000 / 9600 - 1;  // 10415
 
 ---
 
-## 📞 **Support & Community**
-
-### **🆘 Getting Help**
-- **📧 Issues**: Use GitHub Issues for bug reports
-- **💬 Discussions**: Join GitHub Discussions for questions
-- **📖 Wiki**: Check the project wiki for detailed guides
-- **🔗 Forums**: FPGA development communities on Reddit/Stack Overflow
-
-### **🤝 Contributing Guidelines**
-1. **Code Style**: Follow SystemVerilog coding standards
-2. **Documentation**: Update README for any new features
-3. **Testing**: Ensure all tests pass before PR submission
-4. **Performance**: Maintain or improve existing benchmarks
-
-### **🏆 Contributors**
-We welcome contributions from:
-- 🎓 Students learning FPGA design
-- 🔬 Researchers in computer vision
-- 👨‍💻 Professional FPGA developers
-- 🎨 Documentation and UI/UX improvers
-
----
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
